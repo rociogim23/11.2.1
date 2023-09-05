@@ -1,5 +1,3 @@
-let form=document.getElementById("formulario")
-
 document.getElementById("Enviar").addEventListener("click", function () {
     const nombre = document.getElementById("Nombre").value;
     const apellido = document.getElementById("Apellido").value;
@@ -7,17 +5,28 @@ document.getElementById("Enviar").addEventListener("click", function () {
 
 
     
-let datosFormulario = new FormData(form);
-console.log (datosFormulario);
+const datos = {
+        
+    nomb: nombre,
+    apellido: apellido,
+    fecha: fecha
+};
+
 fetch('https://jsonplaceholder.typicode.com/users',{
-    method:'POST',  
-    body: datosFormulario
+    method:'POST',
+    body:JSON.stringify(datos),
+    headers:{'Content-Type':'application/json'    
+}
 })
- .then((Response)=> Response.json())
-.then(()=>{
-    document.getElementById("result").innerHTML=`Se registraron los datos 
-    Nombre: ${nombre}<br>
-    Apellido: ${apellido}<br>
-    Fecha: ${fecha}
- `});
+ .then(Response=> Response.json())
+.then(data =>{
+    console.log(datos);
+})
+    .catch(error=>{
+        console.error('Error:',error);
+    });
 });
+
+
+
+
